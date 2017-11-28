@@ -6,6 +6,7 @@ class PollForm(forms.Form):
     choice_text = forms.CharField(label='Choice1', max_length=200)
     choice_text2 = forms.CharField(label='Choice2', max_length=200)
     
+
     def clean(self):
         cleaned_data = super(PollForm, self).clean()
         question_text = cleaned_data.get('question_text')

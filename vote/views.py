@@ -8,8 +8,15 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .forms import PollForm
 from django.urls import reverse
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+def landing(request):
+    return render(request, 'vote/landing.html')
+
+
+@login_required
 def home(request):
     return render(request, 'vote/home.html')
     
@@ -33,24 +40,29 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
     
     
-class PollList(ListView):
+class PollList(LoginRequiredMixin, ListView):
     model = Question
     context_object_name = 'questions'
     
+    def get_queryset(self):
+        return Question.objects.filter(owner=self.request.user)
 
-class PollDetails(DetailView):
+class PollDetails(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'vote/poll_details.html'
     
-    def query_set(self):
-        return Question.objects.all()
+    def get_queryset(self):
+        return Question.objects.filter(owner=self.request.user)
         
 
-class PollResults(DetailView):
+class PollResults(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'vote/results.html'
+
+    def get_queryset(self):
+        return Question.objects.filter(owner=self.request.user)
         
-        
+@login_required        
 def create(request):
     
     if (request.method == 'POST'):
@@ -60,10 +72,15 @@ def create(request):
             question = form.cleaned_data.get('question_text')
             choice1 = form.cleaned_data.get('choice_text')
             choice2 = form.cleaned_data.get('choice_text2')
+            
+            
             q = Question.objects.create(question_text=question)
             q1 = Question.objects.get(id=q.id)
+            q1.owner = request.user
             q1.choices_set.create(choice_text=choice1)
             q1.choices_set.create(choice_text=choice2)
+
+            
             return redirect('vote:poll-details', q.id)
     else:
         form = PollForm()
