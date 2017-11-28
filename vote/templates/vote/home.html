@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div>
+    <div class="text-center">
+    <a href="{% url 'vote:create' %}"><button class="btn btn-default btn-success">New Poll</button></a>
+    <a href="{% url 'vote:poll-list' %}"><button class="btn btn-default btn-primary">My Polls</button></a>
+    </div>
+</div>
+{% endblock %}

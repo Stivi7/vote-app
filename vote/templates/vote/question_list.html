@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div>
+    <ul>
+        {% for question in questions %}
+        <li><a href="{% url 'vote:poll-details' question.id %}">{{question.question_text}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
