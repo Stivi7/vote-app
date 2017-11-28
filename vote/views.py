@@ -74,11 +74,12 @@ def create(request):
             choice2 = form.cleaned_data.get('choice_text2')
             
             
-            q = Question.objects.create(question_text=question)
+            q = Question.objects.create(question_text=question, owner=request.user)
             q1 = Question.objects.get(id=q.id)
-            q1.owner = request.user
-            q1.choices_set.create(choice_text=choice1)
-            q1.choices_set.create(choice_text=choice2)
+            
+            
+            q1.choices_set.create(choice_text=choice1, owner=request.user)
+            q1.choices_set.create(choice_text=choice2, owner=request.user)
 
             
             return redirect('vote:poll-details', q.id)
