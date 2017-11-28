@@ -6,10 +6,11 @@ from django.views.generic.edit import CreateView
 from .models import Question, Choices
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .forms import PollForm
+from .forms import PollForm, UserCreateForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 
 def landing(request):
@@ -27,7 +28,7 @@ def home(request):
 
 def signup(request):
     if (request.method == 'POST'):
-        form = UserCreationForm(request.POST)
+        form = UserCreateForm(request.POST)
         if (form.is_valid()):
             form.save()
             username = form.cleaned_data.get('username')
@@ -36,7 +37,7 @@ def signup(request):
             login(request, user)
             return redirect('vote:home')
     else:
-        form = UserCreationForm()
+        form = UserCreateForm()
     return render(request, 'registration/signup.html', {'form': form})
     
     

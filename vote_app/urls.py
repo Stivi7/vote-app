@@ -27,6 +27,6 @@ urlpatterns = [
 #auth urls
 urlpatterns += [
     url(r'^signup/$', core_views.signup, name='signup'),
-    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^accounts/login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 ]

@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 
 
 class PollForm(forms.Form):
@@ -15,3 +16,11 @@ class PollForm(forms.Form):
         
         if not question_text and not choice_text and not choice_text2:
             raise forms.ValidationError('You have to write something!')
+
+
+class UserCreateForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(UserCreateForm, self).__init__(*args, **kwargs)
+
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None

@@ -1,0 +1,24 @@
+.set-right {
+    text-align: right;
+}
+
+body {
+    background-color: rgba(111, 111, 194, 0.911);
+}
+
+.logo {
+    margin-top: 50px;
+}
+
+.wrapper {
+    padding: 20px;
+    background-color: white !important;
+    box-shadow: 0 0 20px 0 #aaa;
+    margin: auto !important;
+    width: auto;
+}
+
+
+.footercolor {
+    background-color: grey;
+}

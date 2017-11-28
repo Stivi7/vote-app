@@ -1,7 +1,35 @@
-{% extends 'base/base.html' %}
-{% block content %}
-<div>
-    <a href="{% url 'login' %}"><button class="btn btn-default">Login</button></a>
-    <a href="{% url 'signup' %}"><button class="btn btn-default btn-danger">Sign Up</button></a>
+{% extends 'base/base2.html' %} {% block content %}
+{% load staticfiles %}
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand" href="#">Pollify</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <!-- <a class="nav-link" href="#">
+                <span class="sr-only">(current)</span>
+              </a> -->
+            </li>
+
+        </ul>
+    </div>
+    <div class="row set-right">
+        <div class="col-sm-5">
+        <a href="{% url 'login' %}">
+            <button class="btn btn-default">Login</button>
+        </a>
+        </div>
+        <div class="col-sm-7">
+        <a href="{% url 'signup' %}">
+            <button class="btn btn-default btn-danger">Sign Up</button>
+        </a>
+        </div>
+    </div>
+</nav>
+
+<div class="logo text-center">
+    <h1>Welcome to Pollify</h1>
+    <img src="{% static 'images/polls.png' %}" />
 </div>
+
 {% endblock%}

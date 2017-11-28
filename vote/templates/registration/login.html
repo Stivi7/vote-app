@@ -1,11 +1,18 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base2.html' %}
 {% block content %}
-<div>
+<div class="wrapper text-center" style="width: 30%">
     <h1>Login</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
+        {% for field in form %}
+        <div class="form-group">
+        
+        {{ field.label }}
+        {{ field }}
+        
+        </div>
+        {% endfor %}    
+        <button class="btn" type="submit">Login</button>
     </form>
 </div>
 {% endblock %}
