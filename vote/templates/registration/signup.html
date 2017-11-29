@@ -6,7 +6,6 @@
     {% csrf_token %}
     {% for field in form%}
     <div class="form-group">
-    {{ field.label }}
     {{ field }}
     </div>
     {% endfor %}

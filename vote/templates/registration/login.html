@@ -1,6 +1,7 @@
 {% extends 'base/base2.html' %}
 {% block content %}
-<div class="wrapper text-center" style="width: 30%">
+<div class="container h-100">
+<div class="wrapper text-center row h-100 justify-content-center align-items-center" style="width: 30%">
     <h1>Login</h1>
     <form method="POST">
         {% csrf_token %}
@@ -14,5 +15,6 @@
         {% endfor %}    
         <button class="btn" type="submit">Login</button>
     </form>
+</div>
 </div>
 {% endblock %}
