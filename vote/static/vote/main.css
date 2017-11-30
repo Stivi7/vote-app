@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: rgba(111, 111, 194, 0.911);
+    background-color: rgba(0, 0, 0, 0.911);
 }
 
 .logo {
@@ -22,3 +22,8 @@ body {
 .footercolor {
     background-color: grey;
 }
+
+ul {
+    list-style: none;
+}
+

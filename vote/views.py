@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from .models import Question, Choices
@@ -10,6 +10,8 @@ from .forms import PollForm, UserCreateForm
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template import RequestContext
+
 
 
 
@@ -21,10 +23,6 @@ def landing(request):
 def home(request):
     return render(request, 'vote/home.html')
     
-
-
-
-
 
 def signup(request):
     if (request.method == 'POST'):
@@ -62,7 +60,8 @@ class PollResults(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Question.objects.filter(owner=self.request.user)
-        
+
+
 @login_required        
 def create(request):
     
@@ -104,4 +103,14 @@ def vote(request, question_id):
         selected_choice.save()
         
     return HttpResponseRedirect(reverse('vote:results', args=(question.id,)))
-        
+
+
+#bootstrap the login form
+# def login(request):
+#     form = AuthenticationForm(request)
+#     form.fields['username'].widget.attrs['class'] = "form-control"
+#     form.fields['password'].widget.attrs['class'] = "form-control"
+#     form.fields['username'].widget.attrs['placeholder'] = "Username"
+#     form.fields['password'].widget.attrs['placeholder'] = "Password"
+#     return render(request, 'registration/login.html', {'form': form})
+                                

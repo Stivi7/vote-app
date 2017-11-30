@@ -1,14 +1,29 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth.models import User
 
 
 
 class PollForm(forms.Form):
-    question_text = forms.CharField(label='Question', max_length=200)
-    choice_text = forms.CharField(label='Choice1', max_length=200)
-    choice_text2 = forms.CharField(label='Choice2', max_length=200)
+    question_text = forms.CharField(label='Question', max_length=200,
+                    widget = forms.TextInput(attrs={
+                        'class': 'form-control',
+                        'placeholder': 'Question',
+                    })
+    )
+    choice_text = forms.CharField(label='Choice1', max_length=200,
+                    widget = forms.TextInput(attrs={
+                        'class': 'form-control',
+                        'placeholder': 'First choice..'
+                    })
+    )
+    choice_text2 = forms.CharField(label='Choice2', max_length=200,
+                    widget = forms.TextInput(attrs={
+                        'class': 'form-control',
+                        'placeholder': 'Second choice..'
+                    })
+    )
     
 
     def clean(self):
@@ -28,6 +43,8 @@ class PollForm(forms.Form):
 #         for fieldname in ['username', 'password1', 'password2']:
 #             self.fields[fieldname].help_text = None
 
+
+#customized sign up form
 class UserCreateForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and
@@ -73,8 +90,25 @@ class UserCreateForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super(UserCreateForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
+
+#customized login form
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label = _("Username"),
+        widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Username',
+        })
+    )
+    password = forms.CharField(
+        label = _("Password"),
+        widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password',
+        })
+    )

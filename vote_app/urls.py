@@ -18,6 +18,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from vote import views as core_views
 from django.contrib.auth import views as auth_views
+from vote import views
+from vote.forms import LoginForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,6 +29,6 @@ urlpatterns = [
 #auth urls
 urlpatterns += [
     url(r'^signup/$', core_views.signup, name='signup'),
-    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/login/$', auth_views.login,{'template_name':'registration/login.html', 'authentication_form':LoginForm}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
 ]
