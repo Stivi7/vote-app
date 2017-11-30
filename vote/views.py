@@ -2,15 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404, render_to_resp
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from .models import Question, Choices
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .forms import PollForm, UserCreateForm
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.template import RequestContext
+
 
 
 
@@ -22,6 +22,14 @@ def landing(request):
 @login_required
 def home(request):
     return render(request, 'vote/home.html')
+
+@login_required
+def pollurl(request, id):
+    questions = Question.objects.get(id=id)
+    context = {
+        'questions': questions
+    }
+    return render(request, 'vote/pollurl.html', context)
     
 
 def signup(request):
@@ -62,6 +70,11 @@ class PollResults(LoginRequiredMixin, DetailView):
         return Question.objects.filter(owner=self.request.user)
 
 
+class PollDelete(LoginRequiredMixin, DeleteView):
+    model = Question
+    success_url = reverse_lazy('vote:poll-list')
+
+
 @login_required        
 def create(request):
     
@@ -82,7 +95,7 @@ def create(request):
             q1.choices_set.create(choice_text=choice2, owner=request.user)
 
             
-            return redirect('vote:poll-details', q.id)
+            return redirect('vote:pollurl', q.id)
     else:
         form = PollForm()
     return render(request, 'forms/poll_form.html', {'form': form})
@@ -104,13 +117,3 @@ def vote(request, question_id):
         
     return HttpResponseRedirect(reverse('vote:results', args=(question.id,)))
 
-
-#bootstrap the login form
-# def login(request):
-#     form = AuthenticationForm(request)
-#     form.fields['username'].widget.attrs['class'] = "form-control"
-#     form.fields['password'].widget.attrs['class'] = "form-control"
-#     form.fields['username'].widget.attrs['placeholder'] = "Username"
-#     form.fields['password'].widget.attrs['placeholder'] = "Password"
-#     return render(request, 'registration/login.html', {'form': form})
-                                

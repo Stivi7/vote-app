@@ -15,5 +15,9 @@ urlpatterns = [
     #vote/<question_id>/
     url(r'^vote/(?P<question_id>[0-9]+)/$', views.vote, name='vote1'),
     #poll/results/<pk>
-    url(r'poll/results/(?P<pk>[0-9]+)/$', views.PollResults.as_view(), name='results')
+    url(r'^poll/results/(?P<pk>[0-9]+)/$', views.PollResults.as_view(), name='results'),
+    #poll/delete/<pk>
+    url(r'^poll/delete/(?P<pk>[0-9]+)/$', views.PollDelete.as_view(), name='poll-delete'),
+    #pollurl/
+    url(r'^pollurl/(?P<id>[0-9]+)/$', views.pollurl, name='pollurl'),
 ]

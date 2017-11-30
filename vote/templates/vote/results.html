@@ -1,13 +1,42 @@
-{% extends 'base/base.html' %}
-{% block content %}
-<div>
+{% extends 'base/base.html' %} {% block content %} {% load staticfiles %}
+<div class="wrapper" style="width: 30%">
     <h1>{{question.question_text}}</h1>
-    <ul>
-    {% for choice in question.choices_set.all %}
+    <!-- <ul>
+        {% for choice in question.choices_set.all %}
         <li>
             {{ choice.choice_text }} -- {{ choice.votes}} vote{{ choice.votes| pluralize }}
         </li>
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul> -->
+
+    <canvas id="resultChart" width="400" height="400"></canvas>
 </div>
+
+<script>
+    var ctx = document.getElementById('resultChart').getContext('2d');
+    var choices = []
+    var labels = []
+    "{% for choice in question.choices_set.all %}"
+    choices.push("{{choice.votes}}")
+    labels.push("{{ choice.choice_text }}")
+    "{% endfor %}"
+    
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "{{question.question_text}}",
+                backgroundColor: '#6EDB9B',
+                borderColor: '#509A6E',
+                data: choices,
+            }]
+        },
+
+        options: {}
+});
+</script>
 {% endblock %}
