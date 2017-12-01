@@ -54,20 +54,20 @@ class PollList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Question.objects.filter(owner=self.request.user)
 
-class PollDetails(LoginRequiredMixin, DetailView):
+class PollDetails(DetailView):
     model = Question
     template_name = 'vote/poll_details.html'
     
-    def get_queryset(self):
-        return Question.objects.filter(owner=self.request.user)
-        
+    # def get_queryset(self):
+    #     return Question.objects.filter(owner=self.request.user)
 
-class PollResults(LoginRequiredMixin, DetailView):
+
+class PollResults(DetailView):
     model = Question
     template_name = 'vote/results.html'
 
-    def get_queryset(self):
-        return Question.objects.filter(owner=self.request.user)
+    # def get_queryset(self):
+    #     return Question.objects.filter(owner=self.request.user)
 
 
 class PollDelete(LoginRequiredMixin, DeleteView):
