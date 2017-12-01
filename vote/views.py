@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.views.generic.edit import CreateView, DeleteView
 from .models import Question, Choices
 from django.views.generic.list import ListView
@@ -103,6 +103,7 @@ def create(request):
 
 
 def vote(request, question_id):
+    useragent = request.META['REMOTE_ADDR']
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choices_set.get(pk=request.POST['choice'])
@@ -111,9 +112,13 @@ def vote(request, question_id):
             'question': question,
             'error_message': "You didn't select a choice",
         })
+    if(question.ip == useragent):
+        return render(request, 'vote/voted_once.html')
     else:
         selected_choice.votes += 1
+        question.ip = useragent
         selected_choice.save()
+        question.save()
         
-    return HttpResponseRedirect(reverse('vote:results', args=(question.id,)))
+    return redirect('vote:results', question.id)
 
