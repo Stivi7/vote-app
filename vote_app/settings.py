@@ -25,7 +25,7 @@ SECRET_KEY = 'w-&jf@a=85(n0ktpwp)b4j&o($!n!y_fuw+3kki16&xt38-hkj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
+ALLOWED_HOSTS = ['localhost', 'https://pollify1.herokuapp.com/']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
