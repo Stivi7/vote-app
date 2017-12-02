@@ -6,13 +6,15 @@
   <title>Vote app</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
     crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+    crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'vote/main.css' %}">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-  crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>    
-<script src="{% static 'vote/main.js' %}"></script>
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script src="{% static 'vote/main.js' %}"></script>
 </head>
 
 <body>
@@ -31,23 +33,32 @@
           </a>
         </li>
         <li class="nav-item active">
-            <a class="nav-link" href="{% url 'vote:poll-list' %}">My Polls
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
+          <a class="nav-link" href="{% url 'vote:poll-list' %}">My Polls
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
       </ul>
-      {% if user.is_authenticated %}
-      <div class="row">
-        <p class="nav-link pull-left">{{ user.get_username }}</p>
-        <a class="nav-link pull-left" href="{% url 'logout' %}">Logout</a>
+      <div class="row text-center">
+          {% if user.is_authenticated %}
+            <div class="col-sm-4">
+                <p class="set-right">{{ user.get_username }}</p>
+            </div>
+             <div class="col-sm-2">
+                <a href="{% url 'vote:password-change' %}">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </a>
+             </div>
+             <div class="col-sm-6">
+             <a class=" set-right" href="{% url 'logout' %}">Logout</a>
+             </div>
+           {% endif %}
       </div>
-      {% endif %}
     </div>
   </nav>
 
   {% block content %} {% endblock %}
 
-  
+
 </body>
 
 </html>
