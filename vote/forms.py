@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.contrib.auth.models import User
 
@@ -112,3 +112,14 @@ class LoginForm(AuthenticationForm):
             'placeholder': 'Password',
         })
     )
+
+
+class PasswordChange(PasswordChangeForm):
+    def __init__(self, user, *args, **kwargs):
+        super(PasswordChange, self).__init__(user, *args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'class': 'form-control',
+                                                         'placeholder': 'Current Password'})
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control',
+                                                          'placeholder': 'New Password'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control',
+                                                          'placeholder': 'Confirm Password'})

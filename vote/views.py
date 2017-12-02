@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
+from django.contrib.auth import login, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.views.generic.edit import CreateView, DeleteView
 from .models import Question, Choices
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .forms import PollForm, UserCreateForm
+from .forms import PollForm, UserCreateForm, PasswordChange
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -121,4 +122,21 @@ def vote(request, question_id):
         question.save()
         
     return redirect('vote:results', question.id)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChange(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('vote:home')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChange(request.user)
+    return render(request, 'forms/change_password.html', {
+        'form': form
+    })
 

@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^poll/delete/(?P<pk>[0-9]+)/$', views.PollDelete.as_view(), name='poll-delete'),
     #pollurl/
     url(r'^pollurl/(?P<id>[0-9]+)/$', views.pollurl, name='pollurl'),
+    #password/
+    url(r'^password/$', views.change_password, name='password-change')
 ]

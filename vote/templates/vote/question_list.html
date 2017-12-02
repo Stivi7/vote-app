@@ -1,6 +1,9 @@
 {% extends 'base/base.html' %}
 {% block content %}
 <div class="wrapper" style="width: 50%">
+    {% if questions.count == 0 %}
+    {% include 'vote/empty.html' %}
+    {% endif %}
     <ul>
         <div class="row">
         {% for question in questions %}
